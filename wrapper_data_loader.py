@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# Data loader scripts for current and future usage
+#%%
 import torch
 import torchvision
 from torch.utils.data.dataloader import DataLoader
@@ -102,4 +105,5 @@ def custom_data_loader(dataset, data_folder, num_steps):
     else:
         print("Dataset name not found")
         exit()
-    return train_set, test_set
+    return train_set, test_set, img_size, num_cls
+#%%

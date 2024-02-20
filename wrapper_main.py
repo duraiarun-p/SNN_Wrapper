@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Python Script created using PyCharm IDE
 # Created by pxb23215 at 20/02/2024
 ###############################################
@@ -7,8 +8,11 @@ if __name__ == '__main__':
 
     print('Python %s on %s' % (sys.version, sys.platform))
     import argparse
+    import torch
+    import numpy as np
     from wrapper_data_loader import custom_data_loader
-    # Parse input arguments
+    from model_alex_sola import SResnet, SResnetNM
+    # %%Parse input arguments
     parser = argparse.ArgumentParser(description='SNN Wrapper',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--data_folder', default='data', type=str, help='Folder for saving data')
@@ -37,16 +41,49 @@ if __name__ == '__main__':
     # Declaring
     global args
     args = parser.parse_args()
-
-    # %% Dataset downloader and Dataloader (Training and test data)
+    # Network setup parameters
     data_folder = args.data_folder
     num_steps = args.num_steps
     dataset = args.dataset
-    print(data_folder)
-    train_set, test_set = custom_data_loader(dataset, data_folder, num_steps)
-    # %% Dataloader (Training and test data)
+    num_workers = args.num_workers
+    
+    n = args.n
+    nFilters = args.nFilters
+    boosting = args.boosting
+    poisson_gen = args.poisson_gen
+    leak_mem = args.leak_mem
+    batch_size      = args.batch_size
+    batch_size_test = args.batch_size*2
+    num_epochs      = args.num_epochs
+    num_steps       = args.num_steps
+    lr   = args.lr
+    
+    # Initialize random seed
+    seed = args.seed
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
+    # %% Dataset downloader and Dataset object generator (Training and test set objects)
+    
+    print(data_folder)
+    train_set, test_set, img_size, num_cls = custom_data_loader(dataset, data_folder, num_steps)# Dataset objects
+    # %% Dataloader (Training and test data)
+    trainloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True, drop_last=True)
+    testloader = torch.utils.data.DataLoader(test_set, batch_size=batch_size*2, shuffle=False, num_workers=num_workers, pin_memory=True, drop_last=True)
     # %% Model specification and generation
+    # Set up network architecture and optimizer
+    if args.arch == 'sresnet':
+        model = SResnet(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls,
+                        boosting=boosting, poisson_gen=poisson_gen)
+        # print(model)
+        # summary(model,(img_size,img_size))
+    elif args.arch == 'sresnet_nm':
+        model = SResnetNM(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls)
+
+    else:
+        print("Architecture name not found")
+        exit()
 
     # %% Training operation (Scratch Training or Update-based Training)
 
