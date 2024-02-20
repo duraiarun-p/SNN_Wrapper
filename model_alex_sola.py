@@ -50,7 +50,7 @@ class SResnet(nn.Module):
         else:
             self.boost = False
 
-        print(">>>>>>>>>>>>>>>>>>> S-ResNet >>>>>>>>>>>>>>>>>>>>>>")
+        # print(">>>>>>>>>>>>>>>>>>> S-ResNet >>>>>>>>>>>>>>>>>>>>>>")
 
         affine_flag = True
         bias_flag = False
@@ -183,7 +183,7 @@ class SResnetNM(nn.Module):
         self.leak_mem = leak_mem
         self.batch_num = self.num_steps
 
-        print(">>>>>>>>>>>>>>>>>>> S-ResNet NM >>>>>>>>>>>>>>>>>>>>>>")
+        # print(">>>>>>>>>>>>>>>>>>> S-ResNet NM >>>>>>>>>>>>>>>>>>>>>>")
 
         affine_flag = True
         bias_flag = False

@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', default='0', type=str, help='GPU to use')
     parser.add_argument('--poisson_gen', default=False, action='store_true', help='Use poisson spike generation')
 
-    # Declaring
+    # Parsing command-line interface inputs
     global args
     args = parser.parse_args()
     # Network setup parameters
@@ -47,6 +47,7 @@ if __name__ == '__main__':
     dataset = args.dataset
     num_workers = args.num_workers
     
+    arch = args.arch
     n = args.n
     nFilters = args.nFilters
     boosting = args.boosting
@@ -73,12 +74,12 @@ if __name__ == '__main__':
     testloader = torch.utils.data.DataLoader(test_set, batch_size=batch_size*2, shuffle=False, num_workers=num_workers, pin_memory=True, drop_last=True)
     # %% Model specification and generation
     # Set up network architecture and optimizer
-    if args.arch == 'sresnet':
+    if arch == 'sresnet':
         model = SResnet(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls,
                         boosting=boosting, poisson_gen=poisson_gen)
-        # print(model)
+        print('Model %s created',args.arch)
         # summary(model,(img_size,img_size))
-    elif args.arch == 'sresnet_nm':
+    elif arch == 'sresnet_nm':
         model = SResnetNM(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls)
 
     else:
