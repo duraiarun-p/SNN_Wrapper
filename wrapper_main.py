@@ -12,6 +12,9 @@ if __name__ == '__main__':
     import numpy as np
     from wrapper_data_loader import custom_data_loader
     from model_alex_sola import SResnet, SResnetNM
+    
+    # from torchsummary import summary
+    import torchinfo
     # %%Parse input arguments
     parser = argparse.ArgumentParser(description='SNN Wrapper',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -59,6 +62,9 @@ if __name__ == '__main__':
     num_steps       = args.num_steps
     lr   = args.lr
     
+    print('Using GPU device: ' + str(args.device) + ' ' + str(torch.cuda.get_device_name()))
+    device = torch.device("cuda:"+str(args.device))
+    
     # Initialize random seed
     seed = args.seed
     np.random.seed(seed)
@@ -77,15 +83,24 @@ if __name__ == '__main__':
     if arch == 'sresnet':
         model = SResnet(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls,
                         boosting=boosting, poisson_gen=poisson_gen)
-        print('Model %s created',args.arch)
+        print(arch,'model created')
         # summary(model,(img_size,img_size))
     elif arch == 'sresnet_nm':
         model = SResnetNM(n=n, nFilters=nFilters, num_steps=num_steps, leak_mem=leak_mem, img_size=img_size, num_cls=num_cls)
-
+        print(arch,'model created')
     else:
         print("Architecture name not found")
         exit()
-
+    
+    # Passing model to GPU
+    model = model.to(device)
+    # model_stats=summary(model,input_size=(3,32,32),col_names=["kernel_size","output_size"])
+    # Summary using torchinfo library
+    model_stat=torchinfo.summary(model, (3, 32, 32), batch_dim = 0, col_names = ("input_size", "output_size", "num_params", "kernel_size", "mult_adds"), verbose = 0)
+    summary_str=str(model_stat)
+    # Writing into a text file : note encoding is required for this pkg
+    with open("model_summary.txt", "w",encoding="utf-8") as text_file:
+        text_file.write(summary_str)
     # %% Training operation (Scratch Training or Update-based Training)
 
     # %% Testing operation
