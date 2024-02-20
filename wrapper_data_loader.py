@@ -106,4 +106,5 @@ def custom_data_loader(dataset, data_folder, num_steps):
         print("Dataset name not found")
         exit()
     return train_set, test_set, img_size, num_cls
+
 #%%

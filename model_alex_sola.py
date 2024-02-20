@@ -170,6 +170,7 @@ class SResnet(nn.Module):
         return out_voltage
 
 
+
 class SResnetNM(nn.Module):
     def __init__(self, n, nFilters, num_steps, leak_mem=0.95, img_size=32,  num_cls=10):
         super(SResnetNM, self).__init__()
