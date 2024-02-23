@@ -93,6 +93,10 @@ if __name__ == '__main__':
 
     # %% Model saving
 
+    # %% Quantisation of SNN
+    # Ref: https://pytorch.org/docs/stable/quantization.html
+    # Ref: https://pytorch.org/blog/introduction-to-quantization-on-pytorch/
+    # Ref: https://pytorch.org/tutorials/advanced/static_quantization_tutorial.html
     # %% Visualisation
 
 #%%
