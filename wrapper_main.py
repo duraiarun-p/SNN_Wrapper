@@ -86,7 +86,9 @@ if __name__ == '__main__':
         
         
     # %% Training operation (Scratch Training or Update-based Training)
-
+    # Optimiser definitions and parameters
+    # Ref: https://pytorch.org/tutorials/beginner/hyperparameter_tuning_tutorial.html
+    
     # %% Testing operation
 
     # %% Model saving
