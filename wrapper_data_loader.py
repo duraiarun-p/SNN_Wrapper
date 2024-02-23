@@ -10,6 +10,8 @@ import os
 
 
 def custom_data_loader(dataset, data_folder, num_steps):
+    # Authour: Alex Vincent
+    # Authour: https://github.com/VicenteAlex/Spiking_ResNet 
     transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),

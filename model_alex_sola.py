@@ -5,6 +5,9 @@ Created on Tue Feb 20 16:43:21 2024
 @author: pxb23215
 """
 
+# Model Authour: Alex Vincent
+# Model Authour: https://github.com/VicenteAlex/Spiking_ResNet 
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

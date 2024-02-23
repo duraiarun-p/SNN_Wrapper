@@ -4,6 +4,8 @@ Created on Fri Feb 23 11:15:51 2024
 
 @author: pxb23215
 """
+# Model Authour: Alex Vincent
+# Model Authour: https://github.com/VicenteAlex/Spiking_ResNet 
 # %%
 import argparse
 # import torch
