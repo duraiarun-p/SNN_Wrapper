@@ -12,6 +12,9 @@ import argparse
 parser = argparse.ArgumentParser(description='Parameters for Alex model',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
+# Change for different network models
+parser.add_argument('--weight_folder', default='models_alex', type=str, help='Folder for saving weights')
+
 parser.add_argument('--reload', default=None, type=str, help='Path to weights to reload')
 parser.add_argument('--fine_tune', default=False, action='store_true',
                     help='Does not reload conv1, FC and starts from epoch0')
@@ -31,6 +34,10 @@ parser.add_argument('--train_display_freq', default=1, type=int, help='Display_f
 parser.add_argument('--test_display_freq', default=1, type=int, help='Display_freq for test')
 
 parser.add_argument('--poisson_gen', default=False, action='store_true', help='Use poisson spike generation')
+
+parser.add_argument('--mdl_summ_fname', default='mdl_alx_summary.txt', help='Text file for model summary')
+
+
 
 # Parsing command-line interface inputs
 global args
